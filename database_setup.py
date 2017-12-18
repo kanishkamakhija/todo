@@ -33,7 +33,8 @@ class Task(Base):
         return {
             'task': self.task,
             'id': self.id,
-
+            'status': self.status,
+            'created_date': self.created_date,
         }
 
 

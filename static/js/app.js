@@ -59,7 +59,6 @@ function create() {
     `);
 
     $button.click(function(){
-        console.log("I am being clicked");
         handleAuthClick();
     });
 
@@ -121,6 +120,7 @@ function insert(ele)
         todo_arr.push($li[0]);
         $('.item-list ul').append($li);
         $('input').val('');
+        newTodo(ele.value);
 
     }
 }

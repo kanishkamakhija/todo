@@ -7,7 +7,7 @@ import os
 import sys
 from flask import Flask, render_template, request, redirect
 from flask import jsonify, url_for, flash
-from flask import session as login_session
+from flask import session
 import random
 import string
 # new imports for authentication and authorization
@@ -48,6 +48,7 @@ def todosJSON():
     if request.method == 'POST':
         body = request.data
         body = json.loads(body.decode('utf-8'))
+        print(body)
         user = session.query(User).filter_by(email = body['email']).one_or_none()
         if user:
             print("I am working")
@@ -59,8 +60,20 @@ def todosJSON():
         session.add(user)
         session.commit()
         return jsonify(task = [],count = 0)
-    return "GET HANDLER NOT DEFINED"
 
+    if request.method == 'PUT':
+        body = request.data
+        body = json.loads(body.decode('utf-8'))
+        email = body['email']
+        if email:
+            todo = Task(task=body['todo'],status=body['status'],created_date=body['created_date'])
+            session.add(todo)
+            session.commit()
+            task = session.query(Task).all()
+            return jsonify(task=[r.serialize for r in task],count = len(task))
+
+
+    return "GET HANDLER NOT DEFINED"
 
 
 
