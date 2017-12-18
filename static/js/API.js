@@ -34,7 +34,7 @@ const newTodo = () =>
     })
 
 const delTodo = () =>
-        fetch('todo.json', {
+        fetch('/todo.json', {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json'
@@ -43,4 +43,8 @@ const delTodo = () =>
                 id: "2",
                 email: "kanishkamakhija007",
             })
+        })
+        .then(res => res.json())
+        .then(todos => {
+            console.log(todos)
         })
