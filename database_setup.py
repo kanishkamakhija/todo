@@ -1,6 +1,6 @@
 import sys
 import datetime
-from sqlalchemy import Column, ForeignKey, Integer, String, func, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, func, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -21,7 +21,7 @@ class Task(Base):
 
     id = Column(Integer, primary_key=True)
     task = Column(String(250), nullable=False)
-    status = Column(String(150), nullable=False)
+    status = Column(Boolean, default = False, nullable=False)
     created_date = Column(DateTime, default=func.now())
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
@@ -33,6 +33,7 @@ class Task(Base):
         return {
             'task': self.task,
             'id': self.id,
+
         }
 
 

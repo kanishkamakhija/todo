@@ -19,11 +19,12 @@ import httplib2
 from flask import make_response
 import json
 import requests
+import codecs
+
 
 app = Flask(__name__)
 
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+
 APPLICATION_NAME = "Todo App"
 
 # connect to db and create db session
@@ -42,12 +43,24 @@ to view User and Task Information
 def mainHandel():
     return render_template('index.html')
 
-@app.route('/todo.json', methods=['POST'])
+@app.route('/todo.json', methods=['GET','POST', 'PUT', 'DELETE'])
 def todosJSON():
-    data = request.values
-    print( data['name'] )
-    task = session.query(Task).all()
-    return jsonify(task=[r.serialize for r in task])
+    if request.method == 'POST':
+        body = request.data
+        body = json.loads(body.decode('utf-8'))
+        user = session.query(User).filter_by(email = body['email']).one_or_none()
+        if user:
+            print("I am working")
+            print("Name:", user.name)
+            task = session.query(Task).filter_by(user_id = user.id).all()
+            print(task)
+            return jsonify(task=[r.serialize for r in task],count = len(task))
+        user = User(name=body['name'], email=body['email'])
+        session.add(user)
+        session.commit()
+        return jsonify(task = [],count = 0)
+    return "GET HANDLER NOT DEFINED"
+
 
 
 
