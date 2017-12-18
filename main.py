@@ -64,12 +64,16 @@ def todosJSON():
     if request.method == 'PUT':
         body = request.data
         body = json.loads(body.decode('utf-8'))
-        email = body['email']
-        if email:
-            todo = Task(task=body['task'])
-            session.add(todo)
+        user = session.query(User).filter_by(email = body['email']).one_or_none()
+        if not user:
+            user = User(name=body['name'], email=body['email'])
+            session.add(user)
             session.commit()
-            return jsonify(task=todo.serialize)
+
+        todo = Task(task=body['task'], user_id=user.id)
+        session.add(todo)
+        session.commit()
+        return jsonify(task=todo.serialize)
 
     if request.method == 'DELETE':
         body = request.data
@@ -77,10 +81,10 @@ def todosJSON():
         user = session.query(User).filter_by(email = body['email']).one_or_none()
         print(1)
         if user:
-            task  = session.query(Task).filter_by(user_id = user.id, id=body['id']).one_or_none()
-            print("2")
+            task  = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
+            print(2)
             if task:
-                print("3")
+                print(3)
                 session.delete(task)
                 session.commit()
                 return jsonify(success=True)

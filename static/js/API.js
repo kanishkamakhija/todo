@@ -23,6 +23,7 @@ const newTodo = () =>
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            name: "kanishka",
             email: "kanishkamakhija007",
             task: "hgfhfhf",
             status: 'False',
@@ -40,7 +41,7 @@ const delTodo = () =>
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: "2",
+                id: "8",
                 email: "kanishkamakhija007",
             })
         })
