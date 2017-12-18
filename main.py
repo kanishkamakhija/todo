@@ -55,22 +55,21 @@ def todosJSON():
             print("Name:", user.name)
             task = session.query(Task).filter_by(user_id = user.id).all()
             print(task)
-            return jsonify(task=[r.serialize for r in task],count = len(task))
+            return jsonify(tasks=[r.serialize for r in task],count = len(task))
         user = User(name=body['name'], email=body['email'])
         session.add(user)
         session.commit()
-        return jsonify(task = [],count = 0)
+        return jsonify(tasks = [],count = 0)
 
     if request.method == 'PUT':
         body = request.data
         body = json.loads(body.decode('utf-8'))
         email = body['email']
         if email:
-            todo = Task(task=body['todo'],status=body['status'],created_date=body['created_date'])
+            todo = Task(task=body['todo'])
             session.add(todo)
             session.commit()
-            task = session.query(Task).all()
-            return jsonify(task=[r.serialize for r in task],count = len(task))
+            return jsonify(task=todo.serialize())
 
 
     return "GET HANDLER NOT DEFINED"
