@@ -75,13 +75,16 @@ def todosJSON():
         body = request.data
         body = json.loads(body.decode('utf-8'))
         user = session.query(User).filter_by(email = body['email']).one_or_none()
+        print(1)
         if user:
-            task  = session.query(Task).filter_by(user_id = user.id).one_or_none()
+            task  = session.query(Task).filter_by(user_id = user.id, id=body['id']).one_or_none()
+            print("2")
             if task:
+                print("3")
                 session.delete(task)
                 session.commit()
-                return jsonify(success='True')
-            return jsonify(success='False')
+                return jsonify(success=True)
+        return jsonify(success=False)
 
     # return "GET HANDLER NOT DEFINED"
     task = session.query(Task).all()
