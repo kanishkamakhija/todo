@@ -16,16 +16,31 @@ const getAll = (userInfo) =>
         console.log(todos)
     })
 
-const newTodo = (userInfo, todo) =>
+const newTodo = () =>
     fetch('/todo.json', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email: userInfo.getEmail(),
-            task: todo,
+            email: "kanishkamakhija007",
+            task: "hgfhfhf",
             status: 'False',
+        })
     })
     .then(res => res.json())
+    .then(todos => {
+        console.log(todos)
     })
+
+const delTodo = () =>
+        fetch('todo.json', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: "2",
+                email: "kanishkamakhija007",
+            })
+        })

@@ -66,13 +66,29 @@ def todosJSON():
         body = json.loads(body.decode('utf-8'))
         email = body['email']
         if email:
-            todo = Task(task=body['todo'])
+            todo = Task(task=body['task'])
             session.add(todo)
             session.commit()
-            return jsonify(task=todo.serialize())
+            return jsonify(task=todo.serialize)
 
+if request.method == 'DELETE':
+    body = request.data
+    body = json.loads(body.decode('utf-8'))
+    user = session.query(User).filter_by(email = body['email']).one_or_none()
+    if user:
+        task  = session.query(Task).filter_by(user_id = user.id).one_or_none()
+        if task:
+            session.delete(task)
+            session.commit()
+            return success='True'
+    return success='False'
 
     return "GET HANDLER NOT DEFINED"
+    # task = session.query(Task).all()
+    # return jsonify(tasks=[r.serialize for r in task],count = len(task))
+
+
+
 
 
 
