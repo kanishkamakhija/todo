@@ -8,7 +8,7 @@ const getAll = (userInfo) =>
             name: userInfo.getName(),
             email: userInfo.getEmail(),
             todo: "Some random Todo",
-            status: ""
+            status: false,
         })
     })
     .then(res => res.json())
@@ -25,8 +25,8 @@ const newTodo = () =>
         body: JSON.stringify({
             name: "kanishka",
             email: "kanishkamakhija007",
-            task: "hgfhfhf",
-            status: 'False',
+            task: "hellohello",
+            status: false,
         })
     })
     .then(res => res.json())
@@ -41,7 +41,7 @@ const delTodo = () =>
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: "8",
+                id: "11",
                 email: "kanishkamakhija007",
             })
         })
@@ -49,3 +49,21 @@ const delTodo = () =>
         .then(todos => {
             console.log(todos)
         })
+
+const patchTodo = () =>
+fetch('/todo.json', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        id: "12",
+        email: "kanishkamakhija007",
+        task: "update todo",
+        status: true,
+    })
+})
+.then(res => res.json())
+.then(todos => {
+    console.log(todos)
+})

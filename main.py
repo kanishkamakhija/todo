@@ -43,7 +43,7 @@ to view User and Task Information
 def mainHandel():
     return render_template('index.html')
 
-@app.route('/todo.json', methods=['GET','POST', 'PUT', 'DELETE'])
+@app.route('/todo.json', methods=['GET','POST', 'PUT', 'DELETE', 'PATCH'])
 def todosJSON():
     if request.method == 'POST':
         body = request.data
@@ -79,16 +79,28 @@ def todosJSON():
         body = request.data
         body = json.loads(body.decode('utf-8'))
         user = session.query(User).filter_by(email = body['email']).one_or_none()
-        print(1)
         if user:
             task  = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
-            print(2)
             if task:
-                print(3)
                 session.delete(task)
                 session.commit()
                 return jsonify(success=True)
-        return jsonify(success=False)
+        return jsonify(error="You are not authorized to this todo!")
+
+    if request.method == 'PATCH':
+            body = request.data
+            body = json.loads(body.decode('utf-8'))
+            user = session.query(User).filter_by(email = body['email']).one_or_none()
+            if user:
+                todo = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
+                todo.task = body['task']
+                todo.status = body['status']
+                session.add(todo)
+                session.commit()
+                return jsonify(task=todo.serialize)
+            return jsonify(error="You are not authorizedto this todo!")
+
+
 
     # return "GET HANDLER NOT DEFINED"
     task = session.query(Task).all()
