@@ -37,11 +37,6 @@ class Task(Base):
             'created_date': self.created_date,
         }
 
-
-
-
-
-
 engine = create_engine('mysql+pymysql://root:zxcvbnm@localhost/todo')
 
 

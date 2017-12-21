@@ -1,4 +1,4 @@
-const getAll = (userInfo) =>
+const getAll = (userInfo, val) =>
     fetch('/todo.json',{
         method: 'POST',
         headers: {
@@ -7,8 +7,7 @@ const getAll = (userInfo) =>
         body: JSON.stringify({
             name: userInfo.getName(),
             email: userInfo.getEmail(),
-            todo: "Some random Todo",
-            status: false,
+            todo: val,
         })
     })
     .then(res => res.json())
@@ -16,17 +15,16 @@ const getAll = (userInfo) =>
         console.log(todos)
     })
 
-const newTodo = () =>
+const newTodo = (userInfo, val) =>
     fetch('/todo.json', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            name: "kanishka",
-            email: "kanishkamakhija007",
-            task: "hellohello",
-            status: false,
+            name: userInfo.getName(),
+            email: userInfo.getEmail(),
+            task: val,
         })
     })
     .then(res => res.json())
@@ -34,15 +32,15 @@ const newTodo = () =>
         console.log(todos)
     })
 
-const delTodo = () =>
+const delTodo = (userInfo) =>
         fetch('/todo.json', {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: "11",
-                email: "kanishkamakhija007",
+                id: userInfo.getId(),
+                email: userInfo.getName(),
             })
         })
         .then(res => res.json())
@@ -50,20 +48,19 @@ const delTodo = () =>
             console.log(todos)
         })
 
-const patchTodo = () =>
+const patchTodo = (userInfo, val) =>
 fetch('/todo.json', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        id: "12",
-        email: "kanishkamakhija007",
-        task: "update todo",
-        status: true,
+        id: userInfo.getId(),
+        email: userInfo.getEmail(),
+        task: val,
     })
 })
-.then(res => res.json())
-.then(todos => {
-    console.log(todos)
-})
+// .then(res => res.json())
+// .then(todos => {
+//     console.log(todos)
+// })
