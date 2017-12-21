@@ -1,5 +1,3 @@
-var $content
-
 function clock() {
     // We create a new Date object and assign it to a variable called "time".
 var time = new Date(),
@@ -73,14 +71,15 @@ function update() {
         const $par = $(this).parents()[1];
         const $index = todo_arr.indexOf($par);
         const $val = $($par).children('.text')[0].innerHTML;
-        $('input').val($content);
+        console.log($val);
+        $('input').val($val);
         todo_arr.splice($index, 1);
         $($par).remove();
         const user = GoogleAuth.currentUser.get();
         let isAuthorized = user.hasGrantedScopes(SCOPE);
         if (isAuthorized) {
             const profile = user.getBasicProfile();
-            patchTodo(profile, $content);
+            patchTodo(profile, $val);
         }
         else {
             console.log("not authorized");
@@ -88,15 +87,15 @@ function update() {
 }
 
 function del() {
-    const $par = $(this).parents()[1];
-    const $index = todo_arr.indexOf($par);
-    todo_arr.splice($index, 1);
-    $($par).remove();
-    const user = GoogleAuth.currentUser.get();
-    let isAuthorized = user.hasGrantedScopes(SCOPE);
     if (isAuthorized) {
+        const $par = $(this).parents()[1];
+        const $index = todo_arr.indexOf($par);
+        const user = GoogleAuth.currentUser.get();
+        let isAuthorized = user.hasGrantedScopes(SCOPE);
         const profile = user.getBasicProfile();
-        patchTodo(profile);
+        delTodo(profile, id).then(() => {
+            todo_arr.splice($index, 1);
+            $($par).remove();});
     }
     else {
         console.log("not authorized");
@@ -109,7 +108,7 @@ function insert()
 
     if(event.key === 'Enter')
     {
-        $content = $('#inp').val();
+        const $content = $('#inp').val();
         const $tick = $(`
             <div class="status col-xs-1">
                 <i class="fa fa-check fa-lg" aria-hidden="true"></i>

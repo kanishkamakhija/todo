@@ -32,7 +32,7 @@ const newTodo = (userInfo, val) =>
         console.log(todos)
     })
 
-const delTodo = (userInfo) =>
+const delTodo = (userInfo, id) =>
         fetch('/todo.json', {
             method: 'DELETE',
             headers: {
