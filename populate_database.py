@@ -30,6 +30,5 @@ task = Task(task="hagna", status="done", user_id=user.id)
 session.add(task)
 session.commit()
 
-
 # Task.__table__.drop()
 # User.__table__.drop()

@@ -36,7 +36,7 @@ function create() {
     const $input = $(`
         <div class="row" id="input">
             <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6 input_field text-center">
-                <input id="inp" name="task" placeholder="Enter Your ToDo Here!" type="text" onkeypress="insert(this)" />
+                <input id="inp" name="task" placeholder="Enter Your ToDo Here!" type="text" onkeypress="submit(this)" />
             </div>
         </div>
         `);
@@ -66,9 +66,9 @@ function create() {
 
 }
 
-function showAll(profile) {
-    showAllTodo(profile);
-}
+// function showAll(profile) {
+//     showAllTodo(profile);
+// }
 
 function update() {
     const user = GoogleAuth.currentUser.get();
@@ -106,7 +106,44 @@ function del() {
 
 }
 
-function insert()
+function insert(content) {
+    const $tick = $(`
+        <div class="status col-xs-1">
+            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+        </div>
+        `);
+    const $cross = $(`
+        <div class="delete col-xs-1">
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </div>
+        `);
+
+    const $update = $(`
+        <div class="update col-xs-1">
+            <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+        </div>`);
+    const $li = $(`
+    <li>
+        <div class="col-xs-9 text">${content}</div>
+        <div class="buttons">
+        <div>
+    </li>
+    `);
+
+    $update.click(update);
+
+    $cross.click(del);
+
+    $tick.click(function(){
+        $li.children('div').toggleClass("toggleText");
+        $tick.children('i').toggleClass("fa-check-circle fa-retweet");
+    });
+
+
+    $($li.children('.buttons')[0]).append($tick).append($update).append($cross);
+    return $li;
+}
+function submit()
 {
 
     if(event.key === 'Enter')
@@ -117,50 +154,18 @@ function insert()
             const profile = user.getBasicProfile();
             const $content = $('#inp').val();
             const $isUpdated = $( "#inp" ).attr( "isUpdated" );
-            console.log($isUpdated);
             if($isUpdated === "true")
             {
                 $( "#inp" ).attr( "isUpdated", "false" );
-                console.log("inside patch " + $content);
+                console.log("inside patch " + $isUpdated + "todo: " + test);
                 patchTodo(profile, $content);
 
             }
-            const $tick = $(`
-                <div class="status col-xs-1">
-                    <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-                </div>
-                `);
-            const $cross = $(`
-                <div class="delete col-xs-1">
-                    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-                </div>
-                `);
 
-            const $update = $(`
-                <div class="update col-xs-1">
-                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                </div>`);
-            const $li = $(`
-            <li>
-                <div class="col-xs-9 text">${$content}</div>
-                <div class="buttons">
-                <div>
-            </li>
-            `);
-
-            $update.click(update);
-
-            $cross.click(del);
-
-            $tick.click(function(){
-                $li.children('div').toggleClass("toggleText");
-                $tick.children('i').toggleClass("fa-check-circle fa-retweet");
-            });
-
-
-            $($li.children('.buttons')[0]).append($tick).append($update).append($cross);
-            todo_arr.push($li[0]);
-            $('.item-list ul').append($li);
+            const $newli = insert($content);
+            console.log($newli);
+            todo_arr.push($newli[0]);
+            $('.item-list ul').append($newli);
             $('input').val('');
             newTodo(profile, $content);
         }

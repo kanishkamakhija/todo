@@ -11,26 +11,23 @@ const getAll = (userInfo, val) =>
         })
     })
     .then(res => res.json())
-    .then(todos => {
-        console.log(todos)
-    })
-
-const showAllTodo = (userInfo) =>
-    fetch('/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: userInfo.getEmail(),
-        })
-    })
-    .then(res => res.json())
-    .then(todos => {
-        console.log(todos)
-    })
-
     
+// const showAllTodo = (userInfo) =>
+//     fetch('/', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             email: userInfo.getEmail(),
+//         })
+//     })
+//     .then(res => res.json())
+//     .then(todos => {
+//         console.log(todos)
+//     })
+
+
 const newTodo = (userInfo, val) =>
     fetch('/todo.json', {
         method: 'PUT',

@@ -39,9 +39,9 @@ to view User and Task Information
 """
 
 
-@app.route('/', methods=['POST'])
+@app.route('/')
 def mainHandel():
-    return render_template('index.html', jsonify(tasks=[r.serialize for r in task] )
+    return render_template('index.html')
 
 @app.route('/todo.json', methods=['GET','POST', 'PUT', 'DELETE', 'PATCH'])
 def todosJSON():

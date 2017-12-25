@@ -1,4 +1,5 @@
 var GoogleAuth;
+var test;
   var SCOPE = 'profile email openid';
   function handleClientLoad() {
     // Load the API's client and auth2 modules.
@@ -52,7 +53,7 @@ var GoogleAuth;
     let isAuthorized = user.hasGrantedScopes(SCOPE);
     if (isAuthorized) {
      const profile = user.getBasicProfile();
-     showAll(profile);
+     // showAll(profile);
      getAll(profile);
      create();
      $('#sign-in').hide();
