@@ -66,8 +66,15 @@ function create() {
 
 }
 
-function update() {
+function showAll(profile) {
+    showAllTodo(profile);
+}
 
+function update() {
+    const user = GoogleAuth.currentUser.get();
+    let isAuthorized = user.hasGrantedScopes(SCOPE);
+    if (isAuthorized) {
+        const profile = user.getBasicProfile();
         const $par = $(this).parents()[1];
         const $index = todo_arr.indexOf($par);
         const $val = $($par).children('.text')[0].innerHTML;
@@ -75,25 +82,21 @@ function update() {
         $('input').val($val);
         todo_arr.splice($index, 1);
         $($par).remove();
-        const user = GoogleAuth.currentUser.get();
-        let isAuthorized = user.hasGrantedScopes(SCOPE);
-        if (isAuthorized) {
-            const profile = user.getBasicProfile();
-            patchTodo(profile, $val);
-        }
-        else {
-            console.log("not authorized");
-        }
+        $( "#inp" ).attr( "isUpdated", "true" );
+
+    }
+
+
 }
 
 function del() {
+    const user = GoogleAuth.currentUser.get();
+    let isAuthorized = user.hasGrantedScopes(SCOPE);
     if (isAuthorized) {
         const $par = $(this).parents()[1];
         const $index = todo_arr.indexOf($par);
-        const user = GoogleAuth.currentUser.get();
-        let isAuthorized = user.hasGrantedScopes(SCOPE);
         const profile = user.getBasicProfile();
-        delTodo(profile, id).then(() => {
+        delTodo(profile, 35).then(() => {
             todo_arr.splice($index, 1);
             $($par).remove();});
     }
@@ -108,50 +111,58 @@ function insert()
 
     if(event.key === 'Enter')
     {
-        const $content = $('#inp').val();
-        const $tick = $(`
-            <div class="status col-xs-1">
-                <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-            </div>
-            `);
-        const $cross = $(`
-            <div class="delete col-xs-1">
-                <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-            </div>
-            `);
-
-        const $update = $(`
-            <div class="update col-xs-1">
-                <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-            </div>`);
-        const $li = $(`
-        <li>
-            <div class="col-xs-9 text">${$content}</div>
-            <div class="buttons">
-            <div>
-        </li>
-        `);
-
-        $update.click(update);
-
-        $cross.click(del);
-
-        $tick.click(function(){
-            $li.children('div').toggleClass("toggleText");
-            $tick.children('i').toggleClass("fa-check-circle fa-retweet");
-        });
-
-
-        $($li.children('.buttons')[0]).append($tick).append($update).append($cross);
-        todo_arr.push($li[0]);
-        $('.item-list ul').append($li);
-        $('input').val('');
         const user = GoogleAuth.currentUser.get();
         let isAuthorized = user.hasGrantedScopes(SCOPE);
         if (isAuthorized) {
             const profile = user.getBasicProfile();
+            const $content = $('#inp').val();
+            const $isUpdated = $( "#inp" ).attr( "isUpdated" );
+            console.log($isUpdated);
+            if($isUpdated === "true")
+            {
+                $( "#inp" ).attr( "isUpdated", "false" );
+                console.log("inside patch " + $content);
+                patchTodo(profile, $content);
+
+            }
+            const $tick = $(`
+                <div class="status col-xs-1">
+                    <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                </div>
+                `);
+            const $cross = $(`
+                <div class="delete col-xs-1">
+                    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                </div>
+                `);
+
+            const $update = $(`
+                <div class="update col-xs-1">
+                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                </div>`);
+            const $li = $(`
+            <li>
+                <div class="col-xs-9 text">${$content}</div>
+                <div class="buttons">
+                <div>
+            </li>
+            `);
+
+            $update.click(update);
+
+            $cross.click(del);
+
+            $tick.click(function(){
+                $li.children('div').toggleClass("toggleText");
+                $tick.children('i').toggleClass("fa-check-circle fa-retweet");
+            });
+
+
+            $($li.children('.buttons')[0]).append($tick).append($update).append($cross);
+            todo_arr.push($li[0]);
+            $('.item-list ul').append($li);
+            $('input').val('');
             newTodo(profile, $content);
         }
-
     }
 }

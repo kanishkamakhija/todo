@@ -52,9 +52,10 @@ var GoogleAuth;
     let isAuthorized = user.hasGrantedScopes(SCOPE);
     if (isAuthorized) {
      const profile = user.getBasicProfile();
-      getAll(profile);
-      create();
-      $('#sign-in').hide();
+     showAll(profile);
+     getAll(profile);
+     create();
+     $('#sign-in').hide();
 
     } else {
       $('#title').remove();

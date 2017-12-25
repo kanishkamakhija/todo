@@ -15,6 +15,22 @@ const getAll = (userInfo, val) =>
         console.log(todos)
     })
 
+const showAllTodo = (userInfo) =>
+    fetch('/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: userInfo.getEmail(),
+        })
+    })
+    .then(res => res.json())
+    .then(todos => {
+        console.log(todos)
+    })
+
+    
 const newTodo = (userInfo, val) =>
     fetch('/todo.json', {
         method: 'PUT',
@@ -49,18 +65,18 @@ const delTodo = (userInfo, id) =>
         })
 
 const patchTodo = (userInfo, val) =>
-fetch('/todo.json', {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        id: userInfo.getId(),
-        email: userInfo.getEmail(),
-        task: val,
-    })
-})
-// .then(res => res.json())
-// .then(todos => {
-//     console.log(todos)
-// })
+        fetch('/todo.json', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: userInfo.getId(),
+                email: userInfo.getEmail(),
+                task: val,
+            })
+        })
+        .then(res => res.json())
+        .then(todos => {
+            console.log(todos)
+        })

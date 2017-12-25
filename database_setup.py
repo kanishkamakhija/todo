@@ -35,9 +35,14 @@ class Task(Base):
             'id': self.id,
             'status': self.status,
             'created_date': self.created_date,
+            'user_id': self.user_id,
         }
 
 engine = create_engine('mysql+pymysql://root:zxcvbnm@localhost/todo')
 
 
 Base.metadata.create_all(engine)
+
+
+# User.__table__.drop()
+# Task.__table__.drop()
