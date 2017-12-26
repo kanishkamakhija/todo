@@ -123,7 +123,7 @@ function insert(content) {
             <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
         </div>`);
     const $li = $(`
-    <li>
+    <li data-id="${id}">
         <div class="col-xs-9 text">${content}</div>
         <div class="buttons">
         <div>
@@ -157,12 +157,12 @@ function submit()
             if($isUpdated === "true")
             {
                 $( "#inp" ).attr( "isUpdated", "false" );
-                console.log("inside patch " + $isUpdated + "todo: " + test);
+                console.log("inside patch " + $isUpdated);
                 patchTodo(profile, $content);
 
             }
 
-            const $newli = insert($content);
+            const $newli = insert($content, id);
             console.log($newli);
             todo_arr.push($newli[0]);
             $('.item-list ul').append($newli);

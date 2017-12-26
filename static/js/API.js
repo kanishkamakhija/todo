@@ -10,8 +10,8 @@ const getAll = (userInfo, val) =>
             todo: val,
         })
     })
-    .then(res => res.json())
-    
+    .then(res => res.json()) 
+
 // const showAllTodo = (userInfo) =>
 //     fetch('/', {
 //         method: 'POST',
