@@ -70,16 +70,27 @@ function create() {
 //     showAllTodo(profile);
 // }
 
+function changeStatus(id) {
+    const user = GoogleAuth.currentUser.get();
+    let isAuthorized = user.hasGrantedScopes(SCOPE);
+    if (isAuthorized) {
+        const profile = user.getBasicProfile();
+    }
+}
+
+
 function update() {
     const user = GoogleAuth.currentUser.get();
     let isAuthorized = user.hasGrantedScopes(SCOPE);
     if (isAuthorized) {
         const profile = user.getBasicProfile();
         const $par = $(this).parents()[1];
+        const id = $($par).attr('data-id');
         const $index = todo_arr.indexOf($par);
         const $val = $($par).children('.text')[0].innerHTML;
         console.log($val);
         $('input').val($val);
+        $('input').attr('id', id);
         todo_arr.splice($index, 1);
         $($par).remove();
         $( "#inp" ).attr( "isUpdated", "true" );
@@ -94,9 +105,10 @@ function del() {
     let isAuthorized = user.hasGrantedScopes(SCOPE);
     if (isAuthorized) {
         const $par = $(this).parents()[1];
+        const id = $($par).attr('data-id');
         const $index = todo_arr.indexOf($par);
         const profile = user.getBasicProfile();
-        delTodo(profile, 35).then(() => {
+        delTodo(profile, id).then(() => {
             todo_arr.splice($index, 1);
             $($par).remove();});
     }
@@ -137,6 +149,7 @@ function insert(content,id) {
     $tick.click(function(){
         $li.children('div').toggleClass("toggleText");
         $tick.children('i').toggleClass("fa-check-circle fa-retweet");
+        changeStatus(id);
     });
 
 
@@ -153,11 +166,14 @@ function submit()
         if (isAuthorized) {
             const profile = user.getBasicProfile();
             const $content = $('#inp').val();
+            console.log($content);
             const $isUpdated = $( "#inp" ).attr( "isUpdated" );
             if($isUpdated === "true")
             {
                 $( "#inp" ).attr( "isUpdated", "false" );
-                patchTodo(profile, $content);
+                const id = $('input').attr('id');
+                console.log(id);
+                patchTodo(profile, $content, id);
 
             }
 

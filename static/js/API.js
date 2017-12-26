@@ -12,21 +12,6 @@ const getAll = (userInfo, val) =>
     })
     .then(res => res.json())
 
-// const showAllTodo = (userInfo) =>
-//     fetch('/', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             email: userInfo.getEmail(),
-//         })
-//     })
-//     .then(res => res.json())
-//     .then(todos => {
-//         console.log(todos)
-//     })
-
 
 const newTodo = (userInfo, val) =>
     fetch('/todo.json', {
@@ -49,28 +34,41 @@ const delTodo = (userInfo, id) =>
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: userInfo.getId(),
+                id: id,
                 email: userInfo.getName(),
             })
         })
         .then(res => res.json())
-        .then(todos => {
-            console.log(todos)
-        })
+        // .then(todos => {
+        //     console.log(todos)
+        // })
 
-const patchTodo = (userInfo, val) =>
+const patchTodo = (userInfo, val, id) =>
         fetch('/todo.json', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: userInfo.getId(),
+                id: id,
                 email: userInfo.getEmail(),
                 task: val,
             })
         })
         .then(res => res.json())
-        .then(todos => {
-            console.log(todos)
-        })
+        // .then(todos => {
+        //     console.log(todos)
+        // })
+
+const changeStatusTodo = (userInfo, id) =>
+    fetch('todo.json', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          id: id,
+          email: userInfo.getEmail(),
+      })
+    })
+    .then(res => res.json())
