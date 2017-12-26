@@ -54,8 +54,14 @@ var test;
     if (isAuthorized) {
      const profile = user.getBasicProfile();
      // showAll(profile);
-     getAll(profile).then( tt =>
-     tt.tasks.map())
+     getAll(profile).then( res => {
+       res.tasks.forEach((todo) => {
+         const $newli = insert(todo.task, todo.id);
+         console.log($newli);
+         todo_arr.push($newli[0]);
+         $('.item-list ul').append($newli);
+       })
+     })
      create();
      $('#sign-in').hide();
 

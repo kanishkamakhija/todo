@@ -106,7 +106,7 @@ function del() {
 
 }
 
-function insert(content) {
+function insert(content,id) {
     const $tick = $(`
         <div class="status col-xs-1">
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -157,17 +157,16 @@ function submit()
             if($isUpdated === "true")
             {
                 $( "#inp" ).attr( "isUpdated", "false" );
-                console.log("inside patch " + $isUpdated);
                 patchTodo(profile, $content);
 
             }
 
-            const $newli = insert($content, id);
-            console.log($newli);
-            todo_arr.push($newli[0]);
-            $('.item-list ul').append($newli);
             $('input').val('');
-            newTodo(profile, $content);
+            newTodo(profile, $content).then((todo) => {
+              const $newli = insert(todo.task, todo.id);
+              todo_arr.push($newli[0]);
+              $('.item-list ul').append($newli);
+            })
         }
     }
 }
