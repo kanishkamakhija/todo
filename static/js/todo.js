@@ -54,7 +54,8 @@ var test;
     if (isAuthorized) {
      const profile = user.getBasicProfile();
      // showAll(profile);
-     getAll(profile);
+     var $tt = getAll(profile);
+     console.log($tt);
      create();
      $('#sign-in').hide();
 
