@@ -90,7 +90,7 @@ function update() {
         const $val = $($par).children('.text')[0].innerHTML;
         console.log($val);
         $('input').val($val);
-        $('input').attr('id', id);
+        $('input').attr('data-id', id);
         todo_arr.splice($index, 1);
         $($par).remove();
         $( "#inp" ).attr( "isUpdated", "true" );
@@ -170,18 +170,23 @@ function submit($this)
             if($isUpdated === "true")
             {
                 $( "#inp" ).attr( "isUpdated", "false" );
-                const id = $('input').attr('id');
-                console.log(id);
-                patchTodo(profile, $content, id);
-
+                const id = $('input').attr('data-id');
+                patchTodo(profile, $content, id).then((todo) => {
+                  const $newli = insert(todo.task, todo.id);
+                  todo_arr.push($newli[0]);
+                  $('.item-list ul').append($newli);
+                });
+            }
+            else {
+              newTodo(profile, $content).then((todo) => {
+                const $newli = insert(todo.task, todo.id);
+                todo_arr.push($newli[0]);
+                $('.item-list ul').append($newli);
+              })
             }
 
             $('input').val('');
-            newTodo(profile, $content).then((todo) => {
-              const $newli = insert(todo.task, todo.id);
-              todo_arr.push($newli[0]);
-              $('.item-list ul').append($newli);
-            })
+
         }
     }
 }

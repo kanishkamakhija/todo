@@ -92,7 +92,7 @@ def todosJSON():
                 todo.task = body['task']
                 session.add(todo)
                 session.commit()
-                return jsonify(task=todo.serialize)
+                return jsonify(todo.serialize)
             return jsonify(error="You are not authorizedto this todo!")
 
 
