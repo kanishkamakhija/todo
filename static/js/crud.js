@@ -156,11 +156,15 @@ function insert(content,id) {
     $($li.children('.buttons')[0]).append($tick).append($update).append($cross);
     return $li;
 }
-function submit()
+function submit($this)
 {
-
     if(event.key === 'Enter')
     {
+        console.log($this);
+        const abc = $($this).attr('id');
+        const xyz = $('#inp').val();
+        console.log(abc + " "+ xyz);
+
         const user = GoogleAuth.currentUser.get();
         let isAuthorized = user.hasGrantedScopes(SCOPE);
         if (isAuthorized) {

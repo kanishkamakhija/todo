@@ -48,11 +48,8 @@ def todosJSON():
     if request.method == 'POST':
         body = request.data
         body = json.loads(body.decode('utf-8'))
-        print(body)
         user = session.query(User).filter_by(email = body['email']).one_or_none()
         if user:
-            print("I am working")
-            print("Name:", user.name)
             task = session.query(Task).filter_by(user_id = user.id).all()
             return jsonify(tasks=[r.serialize for r in task],count = len(task))
         user = User(name=body['name'], email=body['email'])
@@ -78,45 +75,31 @@ def todosJSON():
         body = request.data
         body = json.loads(body.decode('utf-8'))
         user = session.query(User).filter_by(email = body['email'])
+        idd = session.query(Task).with_entities(Task.user_id).filter_by(id=body['id'])
+        print(idd)
         if user:
-            task  = session.query(Task).filter_by(id=body['id']).one_or_none()
+            task  = session.query(Task).filter_by(id=body['id']).one()
+            print(task)
             if task:
                 session.delete(task)
                 session.commit()
                 return jsonify(success=True)
+                print("success")
+        print("failure")
         return jsonify(error="You are not authorized to this todo!")
 
     if request.method == 'PATCH':
             body = request.data
             body = json.loads(body.decode('utf-8'))
             user = session.query(User).filter_by(email = body['email']).one_or_none()
-            print(user)
             if user:
-                print("inside user")
                 todo = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
-                print(todo)
                 todo.task = body['task']
                 session.add(todo)
                 session.commit()
                 return jsonify(task=todo.serialize)
             return jsonify(error="You are not authorizedto this todo!")
 
-    if request.method == '':
-        body = request.data
-        body = json.loads(body.decode('utf-8'))
-        user = session.query(User).filter_by(email = body['email']).one_or_none()
-        print(user)
-        if user:
-            todo = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
-            print(todo)
-            if todo.status:
-                todo.status = False
-            else:
-                todo.status = True     
-            session.add(todo)
-            session.commit()
-            return jsonify(task=todo.serialize)
-        return jsonify(error="You are not authorizedto this todo!")
 
 
     # return "GET HANDLER NOT DEFINED"
