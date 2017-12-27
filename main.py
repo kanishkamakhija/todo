@@ -89,7 +89,11 @@ def todosJSON():
             user = session.query(User).filter_by(email = body['email']).one_or_none()
             if user:
                 todo = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
-                todo.task = body['task']
+                print(body['status'])
+                if body['status'] == "false":
+                    todo.task = body['task']
+                else:
+                    todo.status = body['status']
                 session.add(todo)
                 session.commit()
                 return jsonify(todo.serialize)

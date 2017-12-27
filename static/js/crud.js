@@ -88,9 +88,12 @@ function update() {
         const id = $($par).attr('data-id');
         const $index = todo_arr.indexOf($par);
         const $val = $($par).children('.text')[0].innerHTML;
-        console.log($val);
+        const status = $($par).children('.text').hasClass('toggleText');
+        console.log(status);
+        console.log($par);
         $('input').val($val);
         $('input').attr('data-id', id);
+        $('input').attr('data-status', status);
         todo_arr.splice($index, 1);
         $($par).remove();
         $( "#inp" ).attr( "isUpdated", "true" );
@@ -149,7 +152,6 @@ function insert(content,id) {
     $tick.click(function(){
         $li.children('div').toggleClass("toggleText");
         $tick.children('i').toggleClass("fa-check-circle fa-retweet");
-        changeStatus(id);
     });
 
 
@@ -165,13 +167,13 @@ function submit($this)
         if (isAuthorized) {
             const profile = user.getBasicProfile();
             const $content = $('#inp').val();
-            console.log($content);
             const $isUpdated = $( "#inp" ).attr( "isUpdated" );
             if($isUpdated === "true")
             {
                 $( "#inp" ).attr( "isUpdated", "false" );
                 const id = $('input').attr('data-id');
-                patchTodo(profile, $content, id).then((todo) => {
+                const status = $('input').attr('data-status');
+                patchTodo(profile, $content, id, status).then((todo) => {
                   const $newli = insert(todo.task, todo.id);
                   todo_arr.push($newli[0]);
                   $('.item-list ul').append($newli);

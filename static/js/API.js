@@ -43,7 +43,7 @@ const delTodo = (userInfo, id) =>
         //     console.log(todos)
         // })
 
-const patchTodo = (userInfo, val, id) =>
+const patchTodo = (userInfo, val, id, status) =>
         fetch('/todo.json', {
             method: 'PATCH',
             headers: {
@@ -53,6 +53,7 @@ const patchTodo = (userInfo, val, id) =>
                 id: id,
                 email: userInfo.getEmail(),
                 task: val,
+                status: status
             })
         })
         .then(res => res.json())
