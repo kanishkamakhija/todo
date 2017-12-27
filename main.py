@@ -75,10 +75,8 @@ def todosJSON():
         body = request.data
         body = json.loads(body.decode('utf-8'))
         user = session.query(User).filter_by(email = body['email'])
-        idd = session.query(Task).with_entities(Task.user_id).filter_by(id=body['id'])
-        print(idd)
         if user:
-            task  = session.query(Task).filter_by(id=body['id']).one()
+            task  = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
             print(task)
             if task:
                 session.delete(task)
