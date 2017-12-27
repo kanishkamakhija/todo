@@ -74,16 +74,13 @@ def todosJSON():
     if request.method == 'DELETE':
         body = request.data
         body = json.loads(body.decode('utf-8'))
-        user = session.query(User).filter_by(email = body['email'])
+        user = session.query(User).filter_by(email = body['email']).one_or_none()
         if user:
             task  = session.query(Task).filter_by(user_id = user.id,id=body['id']).one_or_none()
-            print(task)
             if task:
                 session.delete(task)
                 session.commit()
                 return jsonify(success=True)
-                print("success")
-        print("failure")
         return jsonify(error="You are not authorized to this todo!")
 
     if request.method == 'PATCH':

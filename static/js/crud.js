@@ -160,11 +160,6 @@ function submit($this)
 {
     if(event.key === 'Enter')
     {
-        console.log($this);
-        const abc = $($this).attr('id');
-        const xyz = $('#inp').val();
-        console.log(abc + " "+ xyz);
-
         const user = GoogleAuth.currentUser.get();
         let isAuthorized = user.hasGrantedScopes(SCOPE);
         if (isAuthorized) {

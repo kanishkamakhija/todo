@@ -35,7 +35,7 @@ const delTodo = (userInfo, id) =>
             },
             body: JSON.stringify({
                 id: id,
-                email: userInfo.getName(),
+                email: userInfo.getEmail(),
             })
         })
         .then(res => res.json())
@@ -56,9 +56,6 @@ const patchTodo = (userInfo, val, id) =>
             })
         })
         .then(res => res.json())
-        // .then(todos => {
-        //     console.log(todos)
-        // })
 
 const changeStatusTodo = (userInfo, id) =>
     fetch('todo.json', {
