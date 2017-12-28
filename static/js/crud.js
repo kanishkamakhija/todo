@@ -89,10 +89,10 @@ function update() {
         const $index = todo_arr.indexOf($par);
         const $val = $($par).children('.text')[0].innerHTML;
         const status = $($par).children('.text').hasClass('toggleText');
-        
+
         $('input').val($val);
         $('input').attr('data-id', id);
-        $('input').attr('data-status', status);
+        $('input').attr('data-status', `{status}`);
         todo_arr.splice($index, 1);
         $($par).remove();
         $( "#inp" ).attr( "isUpdated", "true" );
@@ -171,7 +171,7 @@ function submit($this)
             {
                 $( "#inp" ).attr( "isUpdated", "false" );
                 const id = $('input').attr('data-id');
-                const status = $('input').attr('data-status');
+                const status = $('input').attr('data-status') == 'true';
                 patchTodo(profile, $content, id, status).then((todo) => {
                   const $newli = insert(todo.task, todo.id);
                   todo_arr.push($newli[0]);
