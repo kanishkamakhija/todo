@@ -39,9 +39,6 @@ const delTodo = (userInfo, id) =>
             })
         })
         .then(res => res.json())
-        // .then(todos => {
-        //     console.log(todos)
-        // })
 
 const patchTodo = (userInfo, val, id, status) =>
         fetch('/todo.json', {

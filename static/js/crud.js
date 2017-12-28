@@ -89,8 +89,7 @@ function update() {
         const $index = todo_arr.indexOf($par);
         const $val = $($par).children('.text')[0].innerHTML;
         const status = $($par).children('.text').hasClass('toggleText');
-        console.log(status);
-        console.log($par);
+        
         $('input').val($val);
         $('input').attr('data-id', id);
         $('input').attr('data-status', status);
