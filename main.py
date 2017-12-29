@@ -5,6 +5,8 @@ from sqlalchemy.orm import sessionmaker, relationship
 from database_setup import User, Task, Base
 import os
 import sys
+# from flask_sqlalchemy import exc
+from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, redirect
 from flask import jsonify, url_for, flash
 from flask import session
@@ -23,7 +25,13 @@ import codecs
 
 
 app = Flask(__name__)
+app.debug=True
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:zxcvbnm@localhost/todo"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
+
+db = SQLAlchemy(app)
+db.init_app(app)
 
 APPLICATION_NAME = "Todo App"
 
@@ -46,16 +54,19 @@ def mainHandel():
 @app.route('/todo.json', methods=['GET','POST', 'PUT', 'DELETE', 'PATCH'])
 def todosJSON():
     if request.method == 'POST':
-        body = request.data
-        body = json.loads(body.decode('utf-8'))
-        user = session.query(User).filter_by(email = body['email']).one_or_none()
-        if user:
-            task = session.query(Task).filter_by(user_id = user.id).all()
-            return jsonify(tasks=[r.serialize for r in task],count = len(task))
-        user = User(name=body['name'], email=body['email'])
-        session.add(user)
-        session.commit()
-        return jsonify(tasks = [],count = 0)
+        try:
+            body = request.data
+            body = json.loads(body.decode('utf-8'))
+            user = session.query(User).filter_by(email = body['email']).one_or_none()
+            if user:
+                task = session.query(Task).filter_by(user_id = user.id).all()
+                return jsonify(tasks=[r.serialize for r in task],count = len(task))
+            user = User(name=body['name'], email=body['email'])
+            session.add(user)
+            session.commit()
+            return jsonify(tasks = [],count = 0)
+        except exceptions.SQLAlchemyError:
+            sys.exit("Encountered general SQLAlchemyError.  Call an adult!")
 
     if request.method == 'PUT':
         body = request.data
