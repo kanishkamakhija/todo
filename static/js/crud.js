@@ -70,14 +70,6 @@ function create() {
 //     showAllTodo(profile);
 // }
 
-function changeStatus(id) {
-    const user = GoogleAuth.currentUser.get();
-    let isAuthorized = user.hasGrantedScopes(SCOPE);
-    if (isAuthorized) {
-        const profile = user.getBasicProfile();
-    }
-}
-
 
 function update() {
     const user = GoogleAuth.currentUser.get();
@@ -120,7 +112,7 @@ function del() {
 
 }
 
-function insert(content,id) {
+function insert(content, id) {
     const $tick = $(`
         <div class="status col-xs-1">
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -152,12 +144,13 @@ function insert(content,id) {
         const user = GoogleAuth.currentUser.get();
         let isAuthorized = user.hasGrantedScopes(SCOPE);
         if (isAuthorized) {
-            console.log("inside tick if");
             const profile = user.getBasicProfile();
             const $par = $(this).parents()[1];
-            const status = $($par).children('.text').hasClass('toggleText') != 'true';
-            console.log(status);
-            patchTodo(profile,content, id, status).then((todo) => {
+            const id = $($par).attr('data-id');
+            const $val = $($par).children('.text')[0].innerHTML;
+            const status = $($par).children('.text').hasClass('toggleText');
+            console.log(profile + id + $val + status);
+            patchTodo(profile, $val, id, status).then((todo) => {
             $li.children('div').toggleClass("toggleText");
             $tick.children('i').toggleClass("fa-check-circle fa-retweet");
             });
