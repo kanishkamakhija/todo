@@ -43,7 +43,7 @@ function create() {
 
     const $list = $(`
         <div class="row item-list" id="list">
-            <ul>
+            <ul id="sortable">
 
 
             </ul>
@@ -66,9 +66,6 @@ function create() {
 
 }
 
-// function showAll(profile) {
-//     showAllTodo(profile);
-// }
 
 
 function update() {

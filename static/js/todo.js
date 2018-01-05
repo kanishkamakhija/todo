@@ -53,7 +53,7 @@ var test;
     let isAuthorized = user.hasGrantedScopes(SCOPE);
     if (isAuthorized) {
      const profile = user.getBasicProfile();
-     // showAll(profile);
+     create();
      getAll(profile).then( res => {
        res.tasks.forEach((todo) => {
          const $newli = insert(todo.task, todo.id, todo.status);
@@ -61,7 +61,8 @@ var test;
          $('.item-list ul').append($newli);
        })
      })
-     create();
+     $("#sortable").sortable();
+     $("#sortable").disableSelection();
      $('#sign-in').hide();
 
     } else {
