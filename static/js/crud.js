@@ -112,10 +112,10 @@ function del() {
 
 }
 
-function insert(content, id) {
+function insert(content, id, status) {
     const $tick = $(`
         <div class="status col-xs-1">
-            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            <i class="fa ${status ? "fa-retweet" : "fa-check"} fa-lg" aria-hidden="true"></i>
         </div>
         `);
     const $cross = $(`
@@ -130,7 +130,7 @@ function insert(content, id) {
         </div>`);
     const $li = $(`
     <li data-id="${id}">
-        <div class="col-xs-9 text">${content}</div>
+        <div class="col-xs-9 text ${status ? "toggleText" : " "}">${content}</div>
         <div class="buttons">
         <div>
     </li>
@@ -149,10 +149,10 @@ function insert(content, id) {
             const id = $($par).attr('data-id');
             const $val = $($par).children('.text')[0].innerHTML;
             const status = $($par).children('.text').hasClass('toggleText');
-            console.log(profile + id + $val + status);
-            patchTodo(profile, $val, id, status).then((todo) => {
+            console.log(profile + id + $val + !status);
+            patchTodo(profile, $val, id, !status).then((todo) => {
             $li.children('div').toggleClass("toggleText");
-            $tick.children('i').toggleClass("fa-check-circle fa-retweet");
+            $tick.children('i').toggleClass("fa-check fa-retweet");
             });
         }
     });
@@ -179,14 +179,14 @@ function submit($this)
                 const id = $('input').attr('data-id');
                 const status = $('input').attr('data-status') == 'true';
                 patchTodo(profile, $content, id, status).then((todo) => {
-                  const $newli = insert(todo.task, todo.id);
+                  const $newli = insert(todo.task, todo.id, todo.status);
                   todo_arr.push($newli[0]);
                   $('.item-list ul').append($newli);
                 });
             }
             else {
               newTodo(profile, $content).then((todo) => {
-                const $newli = insert(todo.task, todo.id);
+                const $newli = insert(todo.task, todo.id, todo.status);
                 todo_arr.push($newli[0]);
                 $('.item-list ul').append($newli);
               })
