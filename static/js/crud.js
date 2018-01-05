@@ -149,14 +149,27 @@ function insert(content,id) {
     $cross.click(del);
 
     $tick.click(function(){
-        $li.children('div').toggleClass("toggleText");
-        $tick.children('i').toggleClass("fa-check-circle fa-retweet");
+        const user = GoogleAuth.currentUser.get();
+        let isAuthorized = user.hasGrantedScopes(SCOPE);
+        if (isAuthorized) {
+            console.log("inside tick if");
+            const profile = user.getBasicProfile();
+            const $par = $(this).parents()[1];
+            const status = $($par).children('.text').hasClass('toggleText') != 'true';
+            console.log(status);
+            patchTodo(profile,content, id, status).then((todo) => {
+            $li.children('div').toggleClass("toggleText");
+            $tick.children('i').toggleClass("fa-check-circle fa-retweet");
+            });
+        }
     });
 
 
     $($li.children('.buttons')[0]).append($tick).append($update).append($cross);
     return $li;
 }
+
+
 function submit($this)
 {
     if(event.key === 'Enter')
