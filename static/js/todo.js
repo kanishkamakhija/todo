@@ -56,7 +56,7 @@ var test;
      // showAll(profile);
      getAll(profile).then( res => {
        res.tasks.forEach((todo) => {
-         const $newli = insert(todo.task, todo.id);
+         const $newli = insert(todo.task, todo.id, todo.status);
          todo_arr.push($newli[0]);
          $('.item-list ul').append($newli);
        })
