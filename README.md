@@ -143,7 +143,7 @@ internal structure of database and that is why It is not implemented beacuse who
     * Make a todo.wsgi file to serve the application over the mod_wsgi. with content:
      `$ nano todo.wsgi`
      
-    `
+  ```
       import sys
       import logging
       logging.basicConfig(stream=sys.stderr)
@@ -152,12 +152,12 @@ internal structure of database and that is why It is not implemented beacuse who
       from main import app as application
      `
     * Run the database_setup.py:
-     `$ python database_setup.py`
-     
+     `$ python database_setup.py
+   ```  
       
  12. Modify the actual Apache configuration, to explicitly declare Python files as runnable file and allow such executables        `$ sudo nano /etc/apache2/sites-enabled/000-default.conf`
 
-`
+```
     <VirtualHost *:80>
       ServerName XX.XX.XX.XX
       ServerAdmin kanishkamakhija007@gmail.com
@@ -172,7 +172,7 @@ internal structure of database and that is why It is not implemented beacuse who
           Allow from all
       </Directory>
    </VirtualHost>
-`   
+```   
 
 13. Restart Apache to launch the app.
    `$ sudo service apache2 restart`
