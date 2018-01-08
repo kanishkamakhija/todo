@@ -1,22 +1,12 @@
-html {
-    height: 100%;
-}
 
 body {
     background-attachment: fixed;
-    /*
-    background: #87e0fd;
-    background: -moz-linear-gradient(top, #87e0fd 0%, #53cbf1 50%, #05abe0 100%);
-    background: -webkit-linear-gradient(top, #87e0fd 0%,#53cbf1 50%,#05abe0 100%);
-    background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 50%,#05abe0 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=0 );*/
     background: #1abc9c;
     background: -moz-linear-gradient(top, #1abc9c 0%, #34495e 100%);
     background: -webkit-linear-gradient(top, #1abc9c 0%, #34495e 100%);
     background: linear-gradient(to bottom, #1abc9c 0%, #34495e 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1abc9c', endColorstr='#34495e', GradientType=0);
-
-        color: white;
+    color: white;
 }
 
 .clock {
@@ -43,6 +33,7 @@ body {
 .row {
     margin-top: 50px;
     margin-bottom: 50px;
+    margin-left: 0;
 }
 
 .center {
@@ -51,6 +42,7 @@ body {
 
 .container {
     margin-top: 70px;
+    margin-bottom: 70px;
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -156,15 +148,3 @@ span.buttonText {
     font-size: 2em;
 }
 
-.container > ul
-{
-    display: flex;
-    flex-flow: column wrap;
-    height: inherit;
-    width: inherit;
-}
-
-.container > ul > li
-{
-    flex: 0 0 auto;
-}
