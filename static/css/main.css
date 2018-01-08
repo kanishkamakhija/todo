@@ -155,3 +155,16 @@ span.buttonText {
     border: 0;
     font-size: 2em;
 }
+
+.container > ul
+{
+    display: flex;
+    flex-flow: column wrap;
+    height: inherit;
+    width: inherit;
+}
+
+.container > ul > li
+{
+    flex: 0 0 auto;
+}
