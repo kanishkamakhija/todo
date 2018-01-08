@@ -24,9 +24,9 @@ user = User(name="Robo Barista", email="tinnyTim@udacity.com")
 session.add(user)
 session.commit()
 
-user = session.query(User).filter_by(email=r"tinnyTim@udacity.com").one()
+user = session.query(User).filter_by(email="tinnyTim@udacity.com").one()
 # Create dummy task
-task = Task(task="hagna", status="done", user_id=user.id)
+task = Task(task="hagna", status= False, user_id=user.id)
 session.add(task)
 session.commit()
 
