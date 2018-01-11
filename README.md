@@ -10,7 +10,7 @@ internal structure of database and that is why It is not implemented beacuse who
 
 ## Steps to Configure Linux server
 
-1. Create Development Environment Instance
+1. Create Development Environment Instance.
 
  * [Create new development environment here.](https://signin.aws.amazon.com/signin?client_id=arn%3Aaws%3Aiam%3A%3A015428540659%3Auser%2Fhomepage&redirect_uri=https%3A%2F%2Fconsole.aws.amazon.com%2Fconsole%2Fhome%3Fstate%3DhashArgs%2523%26isauthcode%3Dtrue&page=resolve)
 
